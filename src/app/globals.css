@@ -1,26 +1,167 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+  --font-mono: var(--font-mono);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-emerald-deep: #0e3b2e;
+  --color-emerald-leaf: #16654f;
+  --color-emerald-bright: #10b981;
+  --color-clay-warm: #c86d38;
+  --color-sand-soft: #f4f5ee;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* Nature-inspired modern palette: deep botanical forest + warm sunlit clay accents */
+  --background: oklch(0.985 0.008 140);
+  --foreground: oklch(0.2 0.02 165);
+  
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.02 165);
+  
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.02 165);
+  
+  /* Deep Botanical Evergreen (high contrast WCAG AA: >7:1 with white) */
+  --primary: oklch(0.32 0.09 160);
+  --primary-foreground: oklch(0.99 0.005 140);
+  
+  /* Subtle Sage / Sand background tint */
+  --secondary: oklch(0.94 0.025 145);
+  --secondary-foreground: oklch(0.25 0.06 160);
+  
+  --muted: oklch(0.94 0.015 140);
+  --muted-foreground: oklch(0.48 0.03 165);
+  
+  /* Terracotta / Sunlit Clay Accent for calls to action & energy */
+  --accent: oklch(0.68 0.15 45);
+  --accent-foreground: oklch(0.99 0 0);
+  
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  
+  --border: oklch(0.89 0.02 145);
+  --input: oklch(0.89 0.02 145);
+  --ring: oklch(0.4 0.1 160);
+  
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: oklch(0.16 0.02 165);
+  --foreground: oklch(0.96 0.01 140);
+  
+  --card: oklch(0.2 0.025 165);
+  --card-foreground: oklch(0.96 0.01 140);
+  
+  --popover: oklch(0.2 0.025 165);
+  --popover-foreground: oklch(0.96 0.01 140);
+  
+  --primary: oklch(0.8 0.1 155);
+  --primary-foreground: oklch(0.16 0.03 165);
+  
+  --secondary: oklch(0.26 0.03 160);
+  --secondary-foreground: oklch(0.95 0.01 140);
+  
+  --muted: oklch(0.25 0.02 160);
+  --muted-foreground: oklch(0.7 0.02 150);
+  
+  --accent: oklch(0.72 0.15 45);
+  --accent-foreground: oklch(0.15 0.02 165);
+  
+  --destructive: oklch(0.65 0.2 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  
+  --border: oklch(0.28 0.02 160);
+  --input: oklch(0.28 0.02 160);
+  --ring: oklch(0.7 0.1 155);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    overflow-x: hidden;
+    max-width: 100%;
+    font-size: 16px;
+  }
+  @media (min-width: 768px) {
+    html {
+      font-size: 16.5px;
+    }
+  }
+  @media (min-width: 1280px) {
+    html {
+      font-size: 17px;
+    }
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 1rem;
+    line-height: 1.68;
+    overflow-x: hidden;
+    max-width: 100%;
+    position: relative;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  /* Anti-AI-Slop tabular numerals across all numbers, statistics, counters & tables */
+  .tabular-nums, table, [data-tabular="true"], .font-mono {
+    font-variant-numeric: tabular-nums;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom pattern & subtle utility highlights */
+.bg-grid-subtle {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(14, 59, 46, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(14, 59, 46, 0.05) 1px, transparent 1px);
 }
+
+.bg-dots-subtle {
+  background-size: 24px 24px;
+  background-image: radial-gradient(circle, rgba(14, 59, 46, 0.08) 1.5px, transparent 1.5px);
+}
+
+/* Hide scrollbar for all browsers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
